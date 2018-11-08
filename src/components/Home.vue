@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-import Header from './Header';
+import Header from './Navbar';
 import Main from './Main';
 import Footer from './Footer';
 

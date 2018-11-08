@@ -6,9 +6,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand hidden-sm" href="/tblog/">
-                <span class="tblog-leaf-logo">&nbsp;</span>
-            </a>
+            <router-link class="navbar-brand hidden-sm" to="/">
+              <span class="tblog-leaf-logo">&nbsp;</span>
+            </router-link>
             <form class="navbar-form pull-right" action="/tblog/search">
                 <div class="form-group hidden-xs">
                     <div class="input-group">
@@ -20,18 +20,17 @@
         </div>
         <div class="navbar-collapse collapse pull-right">
             <ul class="nav navbar-nav">
-                <li><a href="/tblog/">首页</a></li>
-                <li><a href="/tblog/about">关于</a></li>
+                <li><router-link to="/">首页</router-link></li>
+                <li><router-link to="/about">关于我们</router-link></li>
                 <li><a href="/tblog/register">注册</a></li>
                 <li><a href="/tblog/login">登陆</a></li>
-                
             </ul>
         </div>
     </div>
 </template>
 <script>
 export default {
-    name:"Nav"
+    name:"Navbar"
 }
 </script>
 <style>

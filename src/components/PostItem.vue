@@ -9,11 +9,11 @@
                             <li class="item username"><a href="/tblog/pub/user/5b7d59bbbf578d05d7046ef6">admin</a>.2个月前</li>
                             <li class="item category"><a href="/tblog/?tab=java"><span class="topiclist-tab">Java</span></a></li>
                             <li class="item tag"><a class="tag" href="/tblog/tag/"></a></li>
-                            <li class="item">40次阅读</li>
+                            <li class="item">60次阅读</li>
                         </ul>
                     </div>
                     <div class="title-row">
-                        <a class="title" href="/tblog/topic/5b87dceabf578d115d2357ac" target="_blank">Java 侵权案进入尾声，谷歌不服判决要向最高法院上诉</a>
+                        <router-link class="title" v-bind:to="'/post/5b87dceabf578d115d2357ac'">Java 侵权案进入尾声，谷歌不服判决要向最高法院上诉</router-link>
                     </div>
                     <div class="desc-row">据外媒报道，Google 和 Oracle 长达 8 年的 Java
                         版权之争可能即将结束。今年的3月27日，美国联邦巡回上诉法院裁决 Google 使用 Java 开发 Android 系统的行为侵犯了 Oracle

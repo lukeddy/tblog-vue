@@ -69,10 +69,4 @@
         }
     };
 </script>
-<style>
-
-
-
-
-</style>
 
