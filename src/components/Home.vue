@@ -1,19 +1,19 @@
 <template>
     <div>
-        <Nav></Nav>
-        <Main></Main>
-        <Footer></Footer>
+        <Header/>
+        <Main/>
+        <Footer/>
     </div>
 </template>
 <script>
-import Nav from './Nav.vue';
-import Main from './Main.vue';
-import Footer from './Footer.vue';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 
 export default {
   name: 'Home',
   components: {
-    Nav,
+    Header,
     Main,
     Footer
   }

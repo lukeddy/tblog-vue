@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Home from './components/Home.vue'
+import Home from './components/Home'
 
 export default {
   name: 'app',
@@ -16,9 +16,12 @@ export default {
 </script>
 
 <style>
-#app {
+body{
   background-color: #e1e1e1;
   font-family: "Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB",STHeiti,sans-serif!important;
+}
+#app {
+  margin-top: 80px;
 }
 .panel {
   margin-bottom: 13px
