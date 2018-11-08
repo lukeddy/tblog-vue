@@ -259,7 +259,7 @@
 </template>
 <script>
 export default {
-    name:"TopicList"
+    name:"Main"
 }
 </script>
 <style>
