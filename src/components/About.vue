@@ -1,10 +1,10 @@
 <template>
     <div class="container main">
         <div class="col-md-9">
-            <!--<ul class="breadcrumb">-->
-                <!--<li><router-link to="/">首页</router-link><span class="divider"></span></li>-->
-                <!--<li class="active">关于</li>-->
-            <!--</ul>-->
+            <ul class="breadcrumb">
+                <li><router-link to="/">首页</router-link><span class="divider"></span></li>
+                <li class="active">关于</li>
+            </ul>
             <div class="panel">
                 <div class="inner">
                     <div class="topic_content">
@@ -23,40 +23,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-
-            <div class="panel">
-                <div class="header">
-                    <span class="col_fade">关于</span>
-                </div>
-                <div class="inner">
-                    <p>TBlog：tblog开源博客</p>
-
-                    <p>在这里你可以：</p>
-                    <ul>
-                        <li>提出由建设性的建议</li>
-                        <li>随意修改代码，修改成您需要的风格</li>
-                        <li>分享给您的朋友</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="header">
-                    <span class="col_fade">广告</span>
-                </div>
-                <div class="inner ads">
-                    <a href="javascript:;" target="_blank" class="banner">
-                        <img src="../assets/logo.png">
-                    </a>
-                </div>
-            </div>
-        </div>
+        <Advertisement/>
     </div>
 </template>
 
 <script>
+    import Advertisement from './Advertisement'
     export default {
-        name: "About"
+        name: "About",
+        components:{
+            Advertisement
+        }
     }
 </script>
 

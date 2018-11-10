@@ -50,4 +50,18 @@ body{
   padding: 10px;
   border-radius: 0 0 3px 3px
 }
+.breadcrumb a {
+  color: #80bd01;
+}
+.wrapper {
+  margin-bottom: 20px;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  -khtml-border-radius: 4px;
+}
 </style>
