@@ -1,7 +1,7 @@
 <template>
     <div class="container main">
         <!--<h1> {{ $route.params.id }}</h1>-->
-        <div class="col-md-9" id="content">、
+        <div class="col-md-9" id="content">
             <ul class="breadcrumb">
                 <li><router-link to="/">首页</router-link><span class="divider"></span></li>
                 <li class="active"><a href="/tblog/?tab=java">Java</a></li>
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="inner topic">
-                    <div class="topic_content">
+                    <div class="topic-content">
                         <div class="editormd-preview-container"><p>据外媒报道，Google 和 Oracle 长达 8 年的 Java 版权之争可能即将结束。今年的3月27日，美国联邦巡回上诉法院裁决 Google 使用 Java 开发 Android 系统的行为侵犯了 Oracle 的版权，Google 对此结果不服，申请重新审判。8月28日，联邦上诉法院拒绝重新审理此案（PDF），这也意味着 Google 想要避免向 Oracle 支付赔偿金的唯一希望就是上诉到美国最高法院。而之前，Oracle 索取的赔偿金额为 88 亿美元。</p>
                             <p>Google 在周二的判决后表示将继续采取行动，其发言人表示：</p>
                             <p>对于联邦巡回法院推翻陪审团裁定的“Java 对所有人开放和免费”一事，我们感到非常失望。</p>
@@ -49,6 +49,7 @@
                 </div>
             </div>
             <!--TODO 评论区-->
+            <Comment></Comment>
         </div>
         <Advertisement/>
     </div>
@@ -56,14 +57,92 @@
 
 <script>
     import Advertisement from './Advertisement'
+    import Comment from './Comment'
+
     export default {
         name: "PostDetail",
         components:{
-            Advertisement
+            Advertisement,
+            Comment,
         }
     }
 </script>
 
 <style scoped>
+    #content .topic-full-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 8px 0;
+        display: inline-block;
+        vertical-align: bottom;
+        width: 75%;
+        line-height: 130%
+    }
 
+    #content .changes {
+        font-size: 12px;
+        color: #838383
+    }
+
+
+    #content .changes a {
+        color: inherit
+    }
+
+    #content .action {
+        float: right;
+        margin-top: 8px
+    }
+
+    #content .share {
+        text-align: right;
+        margin-top:-5px;
+    }
+    .topic-content {
+        margin: 0 10px
+    }
+    .topic-content img{
+        display: block;
+        max-width:100%;
+        height: auto;
+    }
+
+    .topic-content p,
+    .preview p,
+    .reply-content p,
+    .reply-form p {
+        font-size: 15px;
+        line-height: 1.7em;
+        overflow: auto;
+    }
+
+    .topic-tags {
+        margin: 1.2rem 0;
+        padding-left: 24px;
+        padding-right: 24px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+    .topic-tags .tag {
+        display: inline-block;
+        background-color: #f1f1f1;
+        border: none;
+        color: #666;
+        padding: .7rem 1rem;
+        border-radius: 2px;
+        margin-right: .6rem;
+        margin-bottom: .6rem;
+        line-height: 1.5;
+    }
+    .topic-action-wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .action-link {
+        width: 66px;
+        margin: 0 10px;
+    }
 </style>

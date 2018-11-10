@@ -2,16 +2,19 @@
   <div id="app">
     <Navbar></Navbar>
     <router-view></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Footer,
   }
 }
 </script>
@@ -54,7 +57,7 @@ body{
   color: #80bd01;
 }
 .wrapper {
-  margin-bottom: 20px;
+  margin: 20px 0;
   padding: 8px;
   background-color: white;
   border: 1px solid #DDD;
