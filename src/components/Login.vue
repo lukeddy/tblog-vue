@@ -8,18 +8,19 @@
             <div class="row wrapper">
                 <div class="col-sm-3">&nbsp;</div>
                 <div class="col-sm-6">
-                    <form action="/tblog/login" method="post">
+                    <div v-if="serverError" class="alert alert-danger">{{ serverError }}</div>
+                    <form action="#" @submit.prevent="login">
                         <h3 class="form-signin-header text-center">登录TBlog</h3>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">用户名:</div>
-                                <input type="text" name="username" value="" class="form-control">
+                                <input type="text" name="username" value="" v-model="username" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码:</div>
-                                <input name="password" type="password" value="" class="form-control">
+                                <input name="password" type="password" value="" v-model="password" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -57,6 +58,34 @@
         name: "Login",
         components:{
             Advertisement
+        },
+        data(){
+            return {
+                username: '',
+                password: '',
+                serverError: '',
+            }
+        },
+        methods:{
+            login() {
+                //this.loading = true
+                this.$store.dispatch('doHttpLogin', {
+                    username: this.username,
+                    password: this.password,
+                })
+                    .then(response => {
+                        //this.loading = false
+                        console.log(response)
+                        this.$router.push({ path: '/' })
+                    })
+                    .catch(error => {
+                        //this.loading = false
+                        this.serverError=error.toString()
+                        //this.serverError = error.response.data
+                        this.password = ''
+                        //this.successMessage = ''
+                    })
+            }
         }
     }
 </script>

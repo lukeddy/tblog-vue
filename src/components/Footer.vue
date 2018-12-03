@@ -1,6 +1,6 @@
 <template>
     <div id="footer">
-       <div id="footer_main">
+       <div id="footer-main">
         <div class="links">
             <a class="dark" href="/tblog/rss">RSS</a>
             |
@@ -28,7 +28,7 @@ export default {
     clear: both;
     background: #fff;
   }
-  #footer_main {
+  #footer-main {
     width: 90%;
     max-width: 1400px;
     min-width: 960px;
