@@ -3,7 +3,7 @@ import Vuex from "vuex"
 import axios from "axios"
 
 Vue.use(Vuex)
-axios.defaults.baseURL='http://118.24.127.237:8080/tblog/api'
+axios.defaults.baseURL='http://localhost:8080/tblog/api'
 
 export const store=new Vuex.Store({
     state:{
@@ -12,7 +12,9 @@ export const store=new Vuex.Store({
 
     },
     getters:{
-
+        isLoggedIn(state) {
+            return state.token !== null
+        },
     },
     mutations:{
         saveTokenToLocal(state, token) {
@@ -22,23 +24,27 @@ export const store=new Vuex.Store({
     actions:{
         doHttpLogin(context, credentials) {
             return new Promise((resolve, reject) => {
-                axios.post('/login', {
+                const params={
                     username: credentials.username,
                     password: credentials.password,
-                })
-                    .then(response => {
-                        if(response.data.status==true){
-                            const token = response.data.access_token
+                }
+                // const config={
+                //     headers:{'Content-type': 'application/x-www-form-urlencoded'}
+                // }
+
+                axios.post('/login',params).then(response => {
+                        //console.log(response)
+                        if(response.status==200){
+                            const token = response.data.token
                             localStorage.setItem('access_token', token)
                             context.commit('saveTokenToLocal', token)
                             resolve(response)
                             // context.commit('addTodo', response.data)
                         }else{
-                            reject(response.data.data)
+                            reject(response)
                         }
                     })
                     .catch(error => {
-                        //console.log(error)
                         reject(error)
                     })
             })
