@@ -68,16 +68,13 @@
                             username: this.username,
                             password: this.password,
                         })
-                            .then(response => {
+                            .then(() => {
                                 //this.loading = false
-                                console.log(response)
                                 this.$router.push({ path: '/' })
                             })
                             .catch(error => {
                                 //this.loading = false
-                                console.log(error.response.data)
                                 this.serverError = error.response.data
-                                //this.successMessage = ''
                             })
                         return;
                     }

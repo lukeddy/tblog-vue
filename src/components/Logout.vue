@@ -1,5 +1,5 @@
 <template>
-
+ <div></div>
 </template>
 
 <script>
@@ -7,9 +7,9 @@
         name:"Logout",
         created() {
             this.$store.dispatch('logout')
-                .then(response => {
+                .then(() => {
                     this.$router.push({ path: '/login' })
-                }).catch(error => {
+                }).catch(() => {
                     this.$router.push({ path: '/login' })
                 })
         }

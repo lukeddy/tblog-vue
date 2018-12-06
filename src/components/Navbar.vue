@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><router-link to="/">首页</router-link></li>
                 <li><router-link to="/about">关于我们</router-link></li>
-                <li v-if="loggedIn"><router-link to="/category">栏目管理{{loggedIn}}</router-link></li>
+                <li v-if="loggedIn"><router-link to="/category">栏目管理</router-link></li>
                 <li v-if="loggedIn"><router-link to="/post">帖子管理</router-link></li>
                 <li v-if="!loggedIn"><router-link to="/register">注册</router-link></li>
                 <li v-if="!loggedIn"><router-link to="/login">登录</router-link></li>
@@ -36,7 +36,6 @@ export default {
     name:"Navbar",
     computed: {
         loggedIn() {
-            console.log(this.$store.state.token)
             return this.$store.getters.isLoggedIn;
         }
     }
