@@ -14,14 +14,16 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">用户名:</div>
-                                <input type="text" name="username" value="" v-model="username" class="form-control">
+                                <input v-validate="'required'" data-vv-as="用户名" type="text" name="username" value="" v-model="username" class="form-control">
                             </div>
+                            <span v-show="errors.has('username')" class="errors">{{ errors.first('username') }}</span>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码:</div>
-                                <input name="password" type="password" value="" v-model="password" class="form-control">
+                                <input v-validate="'required'" data-vv-as="密码" name="password" type="password" value="" v-model="password" class="form-control">
                             </div>
+                            <span v-show="errors.has('password')" class="errors">{{ errors.first('password') }}</span>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -68,28 +70,37 @@
         },
         methods:{
             login() {
-                //this.loading = true
-                this.$store.dispatch('doHttpLogin', {
-                    username: this.username,
-                    password: this.password,
-                })
-                    .then(response => {
-                        //this.loading = false
-                        console.log(response)
-                        this.$router.push({ path: '/' })
-                    })
-                    .catch(error => {
-                        //this.loading = false
-                        this.serverError=error.toString()
-                        //this.serverError = error.response.data
-                        this.password = ''
-                        //this.successMessage = ''
-                    })
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        //this.loading = true
+                        this.$store.dispatch('doHttpLogin', {
+                            username: this.username,
+                            password: this.password,
+                        })
+                            .then(response => {
+                                //this.loading = false
+                                console.log(response)
+                                this.$router.push({ path: '/' })
+                            })
+                            .catch(error => {
+                                //this.loading = false
+                                this.serverError=error.toString()
+                                //this.serverError = error.response.data
+                                // this.password = ''
+                                //this.successMessage = ''
+                            })
+                        return;
+                    }
+                    alert("请输入账号信息")
+                });
             }
         }
     }
 </script>
 
 <style scoped>
-
+.errors{
+    color:red;
+    font-size:12px;
+}
 </style>

@@ -3,7 +3,7 @@ import Vuex from "vuex"
 import axios from "axios"
 
 Vue.use(Vuex)
-axios.defaults.baseURL='http://localhost:8080/tblog/api'
+axios.defaults.baseURL='http://118.24.127.237:8080/tblog/api'
 
 export const store=new Vuex.Store({
     state:{
