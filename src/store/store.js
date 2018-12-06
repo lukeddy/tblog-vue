@@ -20,6 +20,9 @@ export const store=new Vuex.Store({
         saveTokenToLocal(state, token) {
             state.token = token
         },
+        logout(state) {
+            state.token = null
+        },
     },
     actions:{
         doHttpLogin(context, credentials) {
@@ -28,18 +31,13 @@ export const store=new Vuex.Store({
                     username: credentials.username,
                     password: credentials.password,
                 }
-                // const config={
-                //     headers:{'Content-type': 'application/x-www-form-urlencoded'}
-                // }
 
                 axios.post('/login',params).then(response => {
-                        //console.log(response)
                         if(response.status==200){
-                            const token = response.data.token
+                            const token = response.data
                             localStorage.setItem('access_token', token)
                             context.commit('saveTokenToLocal', token)
                             resolve(response)
-                            // context.commit('addTodo', response.data)
                         }else{
                             reject(response)
                         }
@@ -48,6 +46,27 @@ export const store=new Vuex.Store({
                         reject(error)
                     })
             })
+        },
+
+        logout(context) {
+            axios.defaults.headers.common['Authorization'] = context.state.token
+
+            if (context.getters.isLoggedIn) {
+                return new Promise((resolve, reject) => {
+                    //console.log(axios.defaults.headers)
+                    axios.post('/logout')
+                        .then(response => {
+                            localStorage.removeItem('access_token')
+                            context.commit('logout')
+                            resolve(response)
+                        })
+                        .catch(error => {
+                            localStorage.removeItem('access_token')
+                            context.commit('logout')
+                            reject(error)
+                        })
+                })
+            }
         },
     }
 })

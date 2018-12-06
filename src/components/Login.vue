@@ -75,9 +75,8 @@
                             })
                             .catch(error => {
                                 //this.loading = false
-                                this.serverError=error.toString()
-                                //this.serverError = error.response.data
-                                // this.password = ''
+                                console.log(error.response.data)
+                                this.serverError = error.response.data
                                 //this.successMessage = ''
                             })
                         return;
