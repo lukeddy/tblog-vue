@@ -67,4 +67,8 @@ body{
   -o-border-radius: 4px;
   -khtml-border-radius: 4px;
 }
+.errors{
+  color:red;
+  font-size:12px;
+}
 </style>

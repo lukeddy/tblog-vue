@@ -8,26 +8,29 @@
             <div class="row wrapper">
                 <div class="col-sm-3">&nbsp;</div>
                 <div class="col-sm-6">
-                    <form action="/tblog/register" method="post">
+                    <div v-if="serverError" class="alert alert-danger">{{ serverError }}</div>
+                    <form action="#" @submit.prevent="register" method="post">
                         <h3 class="form-signin-header text-center">用户注册</h3>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">用户名:</div>
-                                <input value="" name="username" id="username" class="form-control" placeholder="请输入用户名">
+                                <input v-validate="'required|alpha_dash'" data-vv-as="用户名" value="" name="username" v-model="username" class="form-control" placeholder="请输入用户名">
                             </div>
+                            <span v-show="errors.has('username')" class="errors">{{ errors.first('username') }}</span>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">密&nbsp;&nbsp;&nbsp;&nbsp;码:</div>
-                                <input value="" type="password" name="password" class="form-control" id="password" placeholder="请输入密码">
+                                <input v-validate="'required|min:6|max:12'" data-vv-as="密码" value="" type="password" name="password" class="form-control" v-model="password" placeholder="请输入密码">
                             </div>
+                            <span v-show="errors.has('password')" class="errors">{{ errors.first('password') }}</span>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">邮&nbsp;&nbsp;&nbsp;&nbsp;件:</div>
-                                <input value="" type="email" name="email" class="form-control" id="email" placeholder="电子邮件">
+                                <input v-validate="'required|email'" data-vv-as="邮箱地址" value="" type="email" name="email" class="form-control" v-model="email" placeholder="电子邮件">
                             </div>
-
+                            <span v-show="errors.has('email')" class="errors">{{ errors.first('email') }}</span>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -61,6 +64,26 @@
         name: "Register",
         components:{
             Advertisement
+        },
+        data(){
+            return {
+                username: '',
+                password: '',
+                email:'',
+                serverError: '',
+            }
+        },
+        methods:{
+            register(){
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        //TODO 调用注册Api
+
+                        return;
+                    }
+                    alert("请输入正确的账户信息")
+                });
+            }
         }
     }
 </script>
