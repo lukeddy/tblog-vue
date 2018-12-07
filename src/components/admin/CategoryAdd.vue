@@ -10,36 +10,37 @@
             <div class="panel">
                 <div class="inner">
                     <div class="topic_content">
+                        <Alert v-if="alertObj" :data="alertObj"/>
                         <div class="markdown-text">
                             <h3>新建栏目</h3>
-                            <div class="row">
-                                <form method="post" action="/tblog/cat/create">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">栏目名称:</div>
-                                            <input type="text" class="form-control" name="catName" value="" placeholder="">
-                                        </div>
+                            <form method="post" action="#" @submit.prevent="addCategory">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">栏目名称:</div>
+                                        <input v-validate="'required'" data-vv-as="栏目名称" v-model="catName" type="text" class="form-control" name="catName" value="" placeholder="">
                                     </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">目录名称（小写英文字母）:</div>
-                                            <input type="text" class="form-control" name="catDir" value="" placeholder="">
-                                        </div>
+                                    <span v-show="errors.has('catName')" class="errors">{{ errors.first('catName') }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">目录名称（小写英文字母）:</div>
+                                        <input v-validate="'required'" data-vv-as="目录名称" v-model="catDir" type="text" class="form-control" name="catDir" value="" placeholder="">
                                     </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">目录简介:</div>
-                                            <textarea name="catDesc" class="form-control" rows="4" placeholder="请输入栏目简介，方便SEO优化"></textarea>
-                                        </div>
+                                    <span v-show="errors.has('catDir')" class="errors">{{ errors.first('catDir') }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">目录简介:</div>
+                                        <textarea v-model="catDesc" name="catDesc" class="form-control" rows="4" placeholder="请输入栏目简介，方便SEO优化"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="text-center">
-                                            <button class="btn btn-success" type="submit">新建</button>
-                                            <button class="btn btn-default" type="reset">清空</button>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <button class="btn btn-success" type="submit">新建</button>
+                                        <button class="btn btn-default" type="reset">清空</button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -50,11 +51,48 @@
 
 <script>
     import Advertisement from '../Advertisement'
+    import Alert from '../Alert'
+
     export default {
         name: "CategoryAdd",
         components:{
-            Advertisement
+            Advertisement,
+            Alert,
+        },
+        data(){
+            return {
+                catName: '',
+                catDir: '',
+                catDesc:'',
+                alertObj:null,
+            }
+        },
+        methods:{
+            addCategory(){
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        // this.loading = true
+                        this.$store.dispatch('addCategory', {
+                            catName: this.catName,
+                            catDir: this.catDir,
+                            catDesc:this.catDesc,
+                        })
+                        .then((response) => {
+                            console.log(response.data)
+                            this.alertObj=response.data
+                        })
+                        .catch(error => {
+                            //this.loading = false
+                            this.alertObj={status:false,msg:error.toString()}
+                        })
+
+                        return;
+                    }
+                    alert("请输入栏目信息")
+                });
+            }
         }
+
     }
 </script>
 

@@ -8,7 +8,7 @@
             <div class="row wrapper">
                 <div class="col-sm-3">&nbsp;</div>
                 <div class="col-sm-6">
-                    <div v-if="serverError" class="alert alert-danger">{{ serverError }}</div>
+                    <Alert v-if="alertObj" :data="alertObj"/>
                     <form action="#" @submit.prevent="login">
                         <h3 class="form-signin-header text-center">登录TBlog</h3>
                         <div class="form-group">
@@ -46,17 +46,19 @@
 
 <script>
     import Advertisement from './Advertisement'
+    import Alert from './Alert'
 
     export default {
         name: "Login",
         components:{
-            Advertisement
+            Advertisement,
+            Alert,
         },
         data(){
             return {
                 username: '',
                 password: '',
-                serverError: '',
+                alertObj:null,
             }
         },
         methods:{
@@ -68,13 +70,14 @@
                             username: this.username,
                             password: this.password,
                         })
-                            .then(() => {
+                            .then((response) => {
                                 //this.loading = false
+                                this.alertObj=response.data
                                 this.$router.push({ path: '/' })
                             })
                             .catch(error => {
                                 //this.loading = false
-                                this.serverError = error.response.data
+                                this.alertObj={status:false,msg:error.toString()}
                             })
                         return;
                     }

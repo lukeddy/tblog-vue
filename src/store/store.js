@@ -7,7 +7,7 @@ axios.defaults.baseURL='http://localhost:8080/tblog/api'
 
 export const store=new Vuex.Store({
     state:{
-      token:localStorage.getItem("access_token")|null,
+      token:null,
       posts:[],
 
     },
@@ -25,26 +25,22 @@ export const store=new Vuex.Store({
         },
     },
     actions:{
-        doHttpLogin(context, credentials) {
+        doHttpLogin(context, params) {
             return new Promise((resolve, reject) => {
-                const params={
-                    username: credentials.username,
-                    password: credentials.password,
-                }
-
                 axios.post('/login',params).then(response => {
-                        if(response.status==200){
-                            const token = response.data
-                            localStorage.setItem('access_token', token)
-                            context.commit('saveTokenToLocal', token)
-                            resolve(response)
-                        }else{
-                            reject(response)
-                        }
-                    })
-                    .catch(error => {
-                        reject(error)
-                    })
+                    //console.log(response.data.data)
+                    if(response.data.status){
+                        const token = response.data.data
+                        localStorage.setItem('access_token', token)
+                        context.commit('saveTokenToLocal', token)
+                        resolve(response)
+                    }else{
+                        reject(response)
+                    }
+                })
+                .catch(error => {
+                    reject(error)
+                })
             })
         },
 
@@ -68,5 +64,22 @@ export const store=new Vuex.Store({
                 })
             }
         },
+
+        addCategory(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.post('/category/add',params).then(response => {
+                    if(response.status==200){
+                        resolve(response)
+                    }else{
+                        reject(response)
+                    }
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
     }
 })
