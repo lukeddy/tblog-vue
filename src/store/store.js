@@ -28,15 +28,12 @@ export const store=new Vuex.Store({
         doHttpLogin(context, params) {
             return new Promise((resolve, reject) => {
                 axios.post('/login',params).then(response => {
-                    //console.log(response.data.data)
                     if(response.data.status){
                         const token = response.data.data
                         localStorage.setItem('access_token', token)
                         context.commit('saveTokenToLocal', token)
-                        resolve(response)
-                    }else{
-                        reject(response)
                     }
+                    resolve(response)
                 })
                 .catch(error => {
                     reject(error)
@@ -70,11 +67,7 @@ export const store=new Vuex.Store({
                 axios.defaults.headers.common['Authorization'] = context.state.token
 
                 axios.post('/category/add',params).then(response => {
-                    if(response.status==200){
-                        resolve(response)
-                    }else{
-                        reject(response)
-                    }
+                    resolve(response)
                 }).catch(error => {
                     reject(error)
                 })

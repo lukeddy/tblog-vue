@@ -78,7 +78,7 @@
                             catDesc:this.catDesc,
                         })
                         .then((response) => {
-                            console.log(response.data)
+                            //console.log(response.data)
                             this.alertObj=response.data
                         })
                         .catch(error => {
@@ -88,7 +88,7 @@
 
                         return;
                     }
-                    alert("请输入栏目信息")
+                    this.alertObj={status:false,msg:"请输入栏目信息"}
                 });
             }
         }

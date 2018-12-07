@@ -72,16 +72,20 @@
                         })
                             .then((response) => {
                                 //this.loading = false
+                                //console.log(response)
+                                if(response.data.status){
+                                    this.$router.push({ path: '/' })
+                                }
                                 this.alertObj=response.data
-                                this.$router.push({ path: '/' })
                             })
                             .catch(error => {
                                 //this.loading = false
+                                //console.log(error)
                                 this.alertObj={status:false,msg:error.toString()}
                             })
                         return;
                     }
-                    alert("请输入账号信息")
+                    this.alertObj={status:false,msg:"请输入账号信息"}
                 });
             }
         }
