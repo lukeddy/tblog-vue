@@ -24,6 +24,9 @@ body{
   background-color: #e1e1e1;
   font-family: "Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB",STHeiti,sans-serif!important;
 }
+a{
+  cursor: pointer;
+}
 #app {
   margin-top: 80px;
 }

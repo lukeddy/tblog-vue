@@ -62,6 +62,30 @@ export const store=new Vuex.Store({
             }
         },
 
+        getUserInfo(context) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.get('/user/info').then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        allCategory(context) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.get('/category/all').then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
         listCategory(context, params) {
             return new Promise((resolve, reject) => {
                 axios.defaults.headers.common['Authorization'] = context.state.token
@@ -103,6 +127,30 @@ export const store=new Vuex.Store({
                 axios.defaults.headers.common['Authorization'] = context.state.token
 
                 axios.post('/category/add',params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        listPost(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.post('/post/list',params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        addPost(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.post('/post',params).then(response => {
                     resolve(response)
                 }).catch(error => {
                     reject(error)
