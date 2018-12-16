@@ -10,6 +10,7 @@ import CategoryAdd from '../components/admin/CategoryAdd'
 import CategoryEdit from '../components/admin/CategoryEdit'
 import Post from '../components/admin/Post'
 import PostAdd from '../components/admin/PostAdd'
+import PostEdit from '../components/admin/PostEdit'
 import Logout from '../components/Logout'
 
 Vue.use(Router)
@@ -26,6 +27,7 @@ export default new Router({
         {path: '/categoryedit/:id', component: CategoryEdit},
         {path: '/post', component: Post},
         {path: '/postadd', component: PostAdd},
+        {path: '/postedit/:id', component: PostEdit},
         {path: '/logout', component: Logout},
     ]
 })

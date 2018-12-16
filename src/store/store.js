@@ -158,5 +158,28 @@ export const store=new Vuex.Store({
             })
         },
 
+        getPost(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.get('/post/'+params.id).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        updatePost(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.put('/post/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
     }
 })
