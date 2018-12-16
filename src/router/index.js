@@ -7,6 +7,7 @@ import Login from '../components/Login'
 import Register from '../components/Register'
 import Category from '../components/admin/Category'
 import CategoryAdd from '../components/admin/CategoryAdd'
+import CategoryEdit from '../components/admin/CategoryEdit'
 import Post from '../components/admin/Post'
 import Logout from '../components/Logout'
 
@@ -21,6 +22,7 @@ export default new Router({
         {path: '/about', component: About},
         {path: '/category', component: Category},
         {path: '/categoryadd', component: CategoryAdd},
+        {path: '/categoryedit/:id', component: CategoryEdit},
         {path: '/post', component: Post},
         {path: '/logout', component: Logout},
     ]

@@ -26,7 +26,7 @@
                                     <td>{{cat.createAtFormatted}}</td>
                                     <td>{{cat.updateAtFormatted}}</td>
                                     <td>
-                                        <a href="/tblog/cat/edit/5b87d3913a0a0d0be6870ec3">修改</a>
+                                        <router-link class="title" v-bind:to="'/categoryedit/'+cat.id">修改</router-link>
                                     </td>
                                 </tr>
                                 </tbody>

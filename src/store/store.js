@@ -74,6 +74,30 @@ export const store=new Vuex.Store({
             })
         },
 
+        getCategory(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.get('/category/'+params.id).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        updateCategory(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.put('/category/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
         addCategory(context, params) {
             return new Promise((resolve, reject) => {
                 axios.defaults.headers.common['Authorization'] = context.state.token
