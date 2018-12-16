@@ -35,10 +35,10 @@
                                 </tbody>
                             </table>
                             <!--分页开始-->
-                            <Pagination v-if="pager" v-on:parentJumpPage="jumpPage" :total-pages="pager.totalPages" :current-page="pager.number+1"/>
+                            <Pagination v-if="pager.totalPages>=1" v-on:parentJumpPage="jumpPage" :total-pages="pager.totalPages" :current-page="pager.number+1"/>
                             <!--分页结束-->
                         </div>
-                        <div v-if="pager==null" class="text-center">暂无帖子</div>
+                        <div v-if="pager.totalPages<=0" class="text-center">暂无帖子</div>
                     </div>
                 </div>
             </div>
@@ -59,30 +59,41 @@
         },
         data(){
             return {
+                currentPage:1,
                 pager:null,
                 alertObj:null,
             }
         },
         mounted:function(){
-            this.$store.dispatch('listPost', {
-                pageNO: 1,
-            }).then((response) => {
-                this.pager=response.data.data
-            })
-            .catch(error => {
-                this.alertObj={status:false,msg:error.toString()}
-            })
-
+            this.loadData();
         },
         methods:{
+            loadData(){
+                this.$store.dispatch('listPost', {
+                    pageNO: this.currentPage,
+                }).then((response) => {
+                    this.pager=response.data.data
+                })
+                .catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
+            },
             deletePost(postId){
-                console.log(postId)
+                this.$store.dispatch('delPost', {
+                    id:postId,
+                }).then((response) => {
+                    this.alertObj=response.data
+                    this.loadData()
+                }).catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
             },
             jumpPage(pageNo){
                 this.$store.dispatch('listPost', {
                     pageNO: pageNo,
                 }).then((response) => {
                     this.pager=response.data.data
+                    this.currentPage=pageNo
                 })
                 .catch(error => {
                     this.alertObj={status:false,msg:error.toString()}

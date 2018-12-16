@@ -181,5 +181,17 @@ export const store=new Vuex.Store({
                 })
             })
         },
+
+        delPost(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.delete('/post/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
     }
 })
