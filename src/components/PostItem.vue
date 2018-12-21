@@ -1,24 +1,21 @@
 <template>
-    <li class="post-item">
+    <li v-if="post!=null" class="post-item">
         <div class="entry">
             <div class="content-box">
                 <div class="info-box">
                     <div class="meta-row">
                         <ul class="meta-list">
-                            <li class="item recommended">置顶</li>
-                            <li class="item username"><a href="/tblog/pub/user/5b7d59bbbf578d05d7046ef6">admin</a>.2个月前</li>
-                            <li class="item category"><a href="/tblog/?tab=java"><span class="topiclist-tab">Java</span></a></li>
+                            <li v-if="post.top" class="item recommended">置顶</li>
+                            <li class="item username"><a href="/tblog/pub/user/5b7d59bbbf578d05d7046ef6">{{post.author.username}}</a>.{{post.friendlyTime}}</li>
+                            <li class="item category"><a @click="goToTab(post.category.catDir)"><span class="topiclist-tab">{{post.category.catName}}</span></a></li>
                             <li class="item tag"><a class="tag" href="/tblog/tag/"></a></li>
-                            <li class="item">60次阅读</li>
+                            <li class="item">{{post.visitCount}}次阅读</li>
                         </ul>
                     </div>
                     <div class="title-row">
-                        <router-link class="title" v-bind:to="'/post/5b87dceabf578d115d2357ac'">Java 侵权案进入尾声，谷歌不服判决要向最高法院上诉</router-link>
+                        <router-link class="title" v-bind:to="'/post/'+post.id">{{post.title}}</router-link>
                     </div>
-                    <div class="desc-row">据外媒报道，Google 和 Oracle 长达 8 年的 Java
-                        版权之争可能即将结束。今年的3月27日，美国联邦巡回上诉法院裁决 Google 使用 Java 开发 Android 系统的行为侵犯了 Oracle
-                        的版权，Google 对此结果不服，申请重新审判。
-                    </div>
+                    <div class="desc-row">{{post.desc}}</div>
                     <div class="action-row">
                         <div class="action-list">
                             <a class="action like" href="javascript:;">
@@ -27,11 +24,11 @@
                             </a>
                             <a class="action comment" href="/tblog/topic/5b87dceabf578d115d2357ac#comment">
                                 <span class="icon"></span>
-                                <span class="title">2评论</span>
+                                <span class="title">{{post.replyCount}}评论</span>
                             </a>
                             <a class="action collect hover" href="javascript:;">
                                 <span class="icon"></span>
-                                <span class="title">0收藏</span>
+                                <span class="title">{{post.collectCount}}收藏</span>
                             </a>
                             <a class="action share hover" href="javascript:;">
                                 <span class="icon"></span>
@@ -40,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="thumb-box" style="background-size: cover; background-image:url(/tblog/upload/2018/10/cc3169ef369a4c8689c5587aa846f36a.jpg);"></div>
+                <div class="thumb-box" v-if="post.thumbURL!=null" :style="{backgroundImage:url('post.thumbURL')}" style="background-size: cover; background-image:url(/tblog/upload/2018/10/cc3169ef369a4c8689c5587aa846f36a.jpg);"></div>
             </div>
         </div>
     </li>
@@ -48,7 +45,13 @@
 
 <script>
     export default {
-        name: "PostItem"
+        name: "PostItem",
+        props:['post','goToTab'],
+        watch:{
+            post: function(newVal, oldVal) {
+                console.log('post changed: ', newVal, ' | was: ', oldVal)
+            }
+        }
     }
 </script>
 

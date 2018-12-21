@@ -1,18 +1,38 @@
 <template>
-    <ul class="post-list">
-        <PostItem></PostItem>
-        <PostItem></PostItem>
-        <PostItem></PostItem>
-    </ul>
+    <div>
+        <ul v-if="pager!=null&&pager.totalPages>=1" class="post-list">
+            <PostItem v-for="(post,index) in pager.content" :key="index" :post="post" :go-to-tab="goToTab"></PostItem>
+        </ul>
+        <!--分页开始-->
+        <Pagination v-if="pager!=null&&pager.totalPages>=1" v-on:parentJumpPage="jumpPage" :total-pages="pager.totalPages" :current-page="pager.number+1"/>
+        <!--分页结束-->
+        <div v-if="pager==null||pager.totalPages==0" class="text-center">
+            没有帖子
+        </div>
+    </div>
 </template>
 
 <script>
     import PostItem from './PostItem';
+    import Pagination from './common/Pagination'
 
     export default {
         name: "PostList",
         components:{
-            PostItem
+            PostItem,
+            Pagination
+        },
+        props:["pager","jumpPage"],
+        watch:{
+            pager: function(newVal, oldVal) {
+                console.log('postlist changed: ', newVal, ' | was: ', oldVal)
+            }
+        },
+        methods:{
+            goToTab(tab){
+                console.log("postList :"+tab)
+                this.$emit("parentChangeTab",tab)
+            }
         }
     }
 </script>

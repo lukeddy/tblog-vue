@@ -25,6 +25,16 @@ export const store=new Vuex.Store({
         },
     },
     actions:{
+        home(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.post('/home',params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
         doHttpLogin(context, params) {
             return new Promise((resolve, reject) => {
                 axios.post('/login',params).then(response => {
@@ -160,9 +170,7 @@ export const store=new Vuex.Store({
 
         getPost(context, params) {
             return new Promise((resolve, reject) => {
-                axios.defaults.headers.common['Authorization'] = context.state.token
-
-                axios.get('/post/'+params.id).then(response => {
+                axios.get('/post/detail/'+params.id).then(response => {
                     resolve(response)
                 }).catch(error => {
                     reject(error)

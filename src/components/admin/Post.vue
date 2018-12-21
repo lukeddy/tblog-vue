@@ -12,7 +12,7 @@
                     <div class="topic_content">
                         <div class="markdown-text">
                             <h3>帖子列表 <router-link to="/postadd">新增</router-link>  </h3>
-                            <table v-if="pager.totalPages>0" class="table">
+                            <table v-if="pager!=null&&pager.totalPages>0" class="table">
                                 <tbody><tr>
                                     <th>帖子标题</th>
                                     <th>栏目</th>
@@ -35,10 +35,10 @@
                                 </tbody>
                             </table>
                             <!--分页开始-->
-                            <Pagination v-if="pager.totalPages>=1" v-on:parentJumpPage="jumpPage" :total-pages="pager.totalPages" :current-page="pager.number+1"/>
+                            <Pagination v-if="pager!=null&&pager.totalPages>0" v-on:parentJumpPage="jumpPage" :total-pages="pager.totalPages" :current-page="pager.number+1"/>
                             <!--分页结束-->
                         </div>
-                        <div v-if="pager.totalPages<=0" class="text-center">暂无帖子</div>
+                        <div v-if="pager==null||pager.totalPages<=0" class="text-center">暂无帖子</div>
                     </div>
                 </div>
             </div>

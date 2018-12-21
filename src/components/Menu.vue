@@ -1,34 +1,41 @@
 <template>
     <div class="header">
-        <a href="/tblog/?tab=all" class="topic-tab current-tab">全部</a>
-        <a href="/tblog/?tab=java" class="topic-tab">Java</a>
-        <a href="/tblog/?tab=vue" class="topic-tab">Vue</a>
-        <a href="/tblog/?tab=php" class="topic-tab">php</a>
-        <a href="/tblog/?tab=golang" class="topic-tab">golang</a>
-        <a href="/tblog/?tab=nodejs" class="topic-tab">nodejs</a>
-        <a href="/tblog/?tab=good" class="topic-tab">good</a>
-        <a href="/tblog/?tab=nice" class="topic-tab">nice</a>
-        <span class="dropdown">
-                    <a href="#" class="dropdown-toggle topic-tab" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                            <li class="topic-tab">
-                                <a href="/tblog/?tab=swift" class="topic-tab">swift</a>
-                            </li>
-                            <li class="topic-tab">
-                                <a href="/tblog/?tab=python" class="topic-tab">python</a>
-                            </li>
-                            <li class="topic-tab">
-                                <a href="/tblog/?tab=ruby" class="topic-tab">ruby</a>
-                            </li>
-                    </ul>
-                </span>
+        <a @click="goToTab('all')" :class="currentTab=='all'?'current-tab':''" class="topic-tab current-tab">全部</a>
+        <span v-if="catList!=null&&catList.length>0">
+            <a v-for="(cat,index) in catList.slice(0,6)" :key="index" :class="currentTab==cat.catDir?'current-tab':''" class="topic-tab" @click="goToTab(cat.catDir)">{{cat.catName}}</a>
+            <span v-if="catList.length>6" class="dropdown">
+                <a href="#" class="dropdown-toggle topic-tab" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    更多 <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                        <li v-for="(cat,index) in catList.slice(6,catList.length)" :key="index"   class="topic-tab">
+                            <a @click="goToTab(cat.catDir)" :class="currentTab==cat.catDir?'current-tab':''" class="topic-tab">{{cat.catName}}</a>
+                        </li>
+                </ul>
+            </span>
+        </span>
     </div>
 </template>
 <script>
     export default {
-        name: "Menu"
+        name: "Menu",
+        props:['catList','currentTab'],
+        watch:{
+            catList: function(newVal, oldVal) {
+                console.log('catList changed: ', newVal, ' | was: ', oldVal)
+            },
+            currentTab: function(newVal, oldVal) {
+                console.log('currentTab changed: ', newVal, ' | was: ', oldVal)
+            }
+        },
+        methods:{
+            goToTab(tab){
+                //console.log(tab)
+                this.$emit("parentChangeTab",tab)
+            }
+        }
     }
+
 </script>
 <style>
     .topic-tab.current-tab {
