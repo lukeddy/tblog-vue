@@ -1,16 +1,16 @@
 <template>
     <div class="header">
-        <a @click="goToTab('all')" :class="currentTab=='all'?'current-tab':''" class="topic-tab current-tab">全部</a>
+        <a @click="goToTab('all')"  :class="{'current-tab':currentTab==='all'}" class="topic-tab">全部</a>
         <span v-if="catList!=null&&catList.length>0">
-            <a v-for="(cat,index) in catList.slice(0,6)" :key="index" :class="currentTab==cat.catDir?'current-tab':''" class="topic-tab" @click="goToTab(cat.catDir)">{{cat.catName}}</a>
+            <a v-for="(cat,index) in catList.slice(0,6)" :key="index" :class="{'current-tab':cat.catDir===currentTab}" class="topic-tab" @click="goToTab(cat.catDir)">{{cat.catName}}</a>
             <span v-if="catList.length>6" class="dropdown">
                 <a href="#" class="dropdown-toggle topic-tab" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     更多 <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                        <li v-for="(cat,index) in catList.slice(6,catList.length)" :key="index"   class="topic-tab">
-                            <a @click="goToTab(cat.catDir)" :class="currentTab==cat.catDir?'current-tab':''" class="topic-tab">{{cat.catName}}</a>
-                        </li>
+                    <li v-for="(cat,index) in catList.slice(6,catList.length)" :key="index"   class="topic-tab">
+                        <a @click="goToTab(cat.catDir)" :class="{'current-tab':cat.catDir===currentTab}" class="topic-tab">{{cat.catName}}</a>
+                    </li>
                 </ul>
             </span>
         </span>
@@ -19,7 +19,12 @@
 <script>
     export default {
         name: "Menu",
-        props:['catList','currentTab'],
+        props:['catList'],
+        data(){
+            return{
+                currentTab:'all'
+            }
+        },
         watch:{
             catList: function(newVal, oldVal) {
                 console.log('catList changed: ', newVal, ' | was: ', oldVal)
@@ -31,6 +36,7 @@
         methods:{
             goToTab(tab){
                 //console.log(tab)
+                this.currentTab=tab
                 this.$emit("parentChangeTab",tab)
             }
         }

@@ -2,7 +2,7 @@
     <div class="container main">
         <div class="col-md-9">
             <div class="panel">
-                <Menu :cat-list="catList" :current-tab="currentTab" v-on:parentChangeTab="changeTab"></Menu>
+                <Menu :cat-list="catList" v-on:parentChangeTab="changeTab"></Menu>
                 <div class="inner no-padding">
                     <PostList :pager="pager" :jump-page="jumpPage" v-on:parentChangeTab="changeTab"></PostList>
                 </div>
@@ -41,7 +41,6 @@
                     pageNO: pageNo,
                     tab:tab
                 }).then((response) => {
-                    //this.pager=response.data.data
                     this.catList=response.data.data.catList
                     this.pager=response.data.data.pager
                     this.currentTab=response.data.data.indexVo.tag
@@ -59,7 +58,6 @@
             },
             jumpPage(pageNo){
                 console.log('aaa:'+pageNo)
-
                 this.loadData(pageNo,this.currentTab);
             }
         }
