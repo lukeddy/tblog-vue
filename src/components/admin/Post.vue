@@ -12,7 +12,7 @@
                     <div class="topic_content">
                         <div class="markdown-text">
                             <h3>帖子列表 <router-link to="/postadd">新增</router-link>  </h3>
-                            <table v-if="pager!=null" class="table">
+                            <table v-if="pager.totalPages>0" class="table">
                                 <tbody><tr>
                                     <th>帖子标题</th>
                                     <th>栏目</th>

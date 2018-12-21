@@ -6,26 +6,22 @@
                 <li><router-link to="/">首页</router-link><span class="divider"></span></li>
                 <li class="active"><a href="/tblog/?tab=java">Java</a></li>
             </ul>
-            <div class="panel">
+            <Alert v-if="alertObj" :data="alertObj"/>
+            <div v-if="post!=null" class="panel">
                 <div class="header topic-header">
-                    <h1 class="topic-full-title">Java 侵权案进入尾声，谷歌不服判决要向最高法院上诉</h1>
+                    <h1 class="topic-full-title">{{post.title}}</h1>
                     <div class="changes">
-                        <span>2个月前</span><span>&nbsp;&nbsp;作者：<a href="/tblog/pub/user/5b7d59bbbf578d05d7046ef6">admin</a></span><span>&nbsp;&nbsp;41次浏览</span>
+                        <span>{{post.friendlyTime}}</span><span>&nbsp;&nbsp;作者：<a href="/tblog/pub/user/5b7d59bbbf578d05d7046ef6">{{post.author.username}}</a></span><span>&nbsp;&nbsp;{{post.visitCount}}次浏览</span>
                     </div>
                 </div>
                 <div class="inner topic">
                     <div class="topic-content">
-                        <div class="editormd-preview-container"><p>据外媒报道，Google 和 Oracle 长达 8 年的 Java 版权之争可能即将结束。今年的3月27日，美国联邦巡回上诉法院裁决 Google 使用 Java 开发 Android 系统的行为侵犯了 Oracle 的版权，Google 对此结果不服，申请重新审判。8月28日，联邦上诉法院拒绝重新审理此案（PDF），这也意味着 Google 想要避免向 Oracle 支付赔偿金的唯一希望就是上诉到美国最高法院。而之前，Oracle 索取的赔偿金额为 88 亿美元。</p>
-                            <p>Google 在周二的判决后表示将继续采取行动，其发言人表示：</p>
-                            <p>对于联邦巡回法院推翻陪审团裁定的“Java 对所有人开放和免费”一事，我们感到非常失望。</p>
-                            <p>我们呼吁，在面对 Oracle 这样的公司时，最高法院应该捍卫这一原则。该公司的限制性做法，可能会扼杀新一代科技开发者的工作。这是一个会对开发者和数字经济带来广泛影响的重要问题。</p>
-                            <p>如果最高法院也拒绝审理案件，那最初的裁决就会生效。下一步将是在北加州美国地方法院（Northern California US District Court）举行陪审团听证会，以确定 Google 应向 Oracle 支付的赔偿金的具体金额。</p>
-                            <p><img src="../assets/tblog-leaf-logo3.png" alt=""></p>
-                        </div>
+                        <div class="editormd-preview-container" v-html="post.contentHTML"></div>
                     </div>
                     <div class="topic-tags">
                         <span>标签：</span>
-                        <a href="/tblog/tag/" class="tag"></a>
+                        <a v-for="(tag,index) in post.tags" :key="index" href="" class="tag">{{tag}}</a>
+                        <!--<a href="/tblog/tag/" class="tag"></a>-->
                     </div>
                     <div class="topic-action-wrapper">
                         <div class="topic-actions">
@@ -48,6 +44,9 @@
                     </div>
                 </div>
             </div>
+            <div v-if="post==null" class="text-center">
+                帖子内容为空
+            </div>
             <!--TODO 评论区-->
             <Comment></Comment>
         </div>
@@ -58,12 +57,31 @@
 <script>
     import Advertisement from './Advertisement'
     import Comment from './Comment'
+    import Alert from './Alert'
 
     export default {
         name: "PostDetail",
         components:{
             Advertisement,
             Comment,
+            Alert
+        },
+        data(){
+            return {
+                post:null,
+                alertObj:null,
+            }
+        },
+        mounted:function () {
+            this.id=this.$route.params.id
+            this.$store.dispatch('getPost',{id:this.id}).then((response) => {
+                this.post=response.data.data
+                console.log(this.post)
+            }).catch(error => {
+                this.alertObj={status:false,msg:error.toString()}
+            })
+
+
         }
     }
 </script>
