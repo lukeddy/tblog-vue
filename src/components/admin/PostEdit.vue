@@ -47,10 +47,9 @@
                         </div>
 
                         <div class="form-group">
-                            <textarea v-validate="'required'" data-vv-as="内容" v-model="post.contentMD" name="contentMD" class="form-control" rows="4" placeholder="MarkDown内容"></textarea>
+                            <mavon-editor v-validate="'required'" data-vv-as="内容" v-model="post.contentMD" ref=editor @imgAdd="uploadImage" placeholder="帖子内容..."/>
                         </div>
                         <span v-show="errors.has('contentMD')" class="errors">{{ errors.first('contentMD') }}</span>
-                        <textarea name="contentHTML" v-model="post.contentHTML" class="form-control" rows="4" placeholder="HTML内容"></textarea>
 
                         <div class="checkbox">
                             <label>
@@ -127,7 +126,7 @@
                             desc: this.post.desc,
                             tags:tags,
                             contentMD:this.post.contentMD,
-                            contentHTML:this.post.contentHTML,
+                            contentHTML:this.$refs.editor.d_render,
                             contentIsHTML:this.post.contentIsHTML,
                             top:this.post.top,
                             good:this.post.good,
@@ -145,6 +144,19 @@
                     }
                     this.alertObj={status:false,msg:"请输入帖子信息"}
                 });
+            },
+            uploadImage(pos, $file){
+                //第一步.将图片上传到服务器.
+                const data = new FormData();
+                data.append('file', $file);
+
+                this.$store.dispatch('uploadFile',data).then((response) => {
+                    //console.log(response.data)
+                    //第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+                    this.$refs.editor.$img2Url(pos, response.data.data);
+                }).catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
             }
         }
 

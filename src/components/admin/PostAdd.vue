@@ -47,11 +47,12 @@
                         </div>
 
                         <div class="form-group">
-                            <textarea v-validate="'required'" data-vv-as="内容" v-model="contentMD" name="contentMD" class="form-control" rows="4" placeholder="MarkDown内容"></textarea>
+                            <mavon-editor v-validate="'required'" data-vv-as="内容" v-model="contentMD" ref=editor @imgAdd="uploadImage" placeholder="帖子内容..."/>
+                            <!--<textarea v-validate="'required'" data-vv-as="内容" v-model="contentMD" name="contentMD" class="form-control" rows="4" placeholder="MarkDown内容"></textarea>-->
                         </div>
                         <span v-show="errors.has('contentMD')" class="errors">{{ errors.first('contentMD') }}</span>
-                        <textarea name="contentHTML" v-model="contentHTML" class="form-control" rows="4" placeholder="HTML内容"></textarea>
-
+                        <!--<textarea name="contentHTML" v-model="contentHTML" class="form-control" rows="4" placeholder="HTML内容"></textarea>-->
+、
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="contentIsHTML" v-model="contentIsHTML" value="true"> 是否网页？
@@ -134,7 +135,7 @@
                             desc: this.desc,
                             tags:this.tags,
                             contentMD:this.contentMD,
-                            contentHTML:this.contentHTML,
+                            contentHTML:this.$refs.editor.d_render,
                             contentIsHTML:this.contentIsHTML,
                             top:this.top,
                             good:this.good,
@@ -152,6 +153,19 @@
                     }
                     this.alertObj={status:false,msg:"请输入帖子信息"}
                 });
+            },
+            uploadImage(pos, $file){
+                //第一步.将图片上传到服务器.
+                const data = new FormData();
+                data.append('file', $file);
+
+                this.$store.dispatch('uploadFile',data).then((response) => {
+                    //console.log(response.data)
+                    //第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+                    this.$refs.editor.$img2Url(pos, response.data.data);
+                }).catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
             }
         }
 
