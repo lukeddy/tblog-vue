@@ -4,8 +4,12 @@ import App from './App.vue'
 import {store} from "./store/store"
 import  VeeValidate from  "vee-validate"
 import zh_CN from 'vee-validate/dist/locale/zh_CN';
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 
+
+Vue.use(mavonEditor)
 
 Vue.use(VeeValidate)
 VeeValidate.Validator.localize('zh_CN', zh_CN);

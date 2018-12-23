@@ -1,18 +1,19 @@
 <template>
     <div class="comment-form">
         <!--评论表单-->
-        <form action="#" method="post" class="form-vertical" id="reply-form">
+        <Alert v-if="alertObj" :data="alertObj"/>
+        <form method="post" @submit.prevent="addComment" class="form-vertical" id="reply-form">
             <fieldset>
                 <div class="form-group">
                     <label>评论</label>
-                    <textarea class="form-control" rows="6" name="add-comment-html-code" placeholder="写点儿评论呢"></textarea>
+                    <mavon-editor v-model="commentValue" ref=editor @imgAdd="uploadImage" placeholder="留下你的角脚印..."/>
                 </div>
                 <div class="form-group text-right">
                     <input type="hidden" name="itemId" value="5b87dceabf578d115d2357ac">
                     <input type="hidden" name="authorId" value="5b7d59bbbf578d05d7046ef6">
                     <img id="vCodeImage" src="../assets/validateCode.jpeg" onclick="javascript:reloadCommentVCode();" autocomplete="off">
                     <input type="text" name="vcode" id="vCodeInput" class="form-control" style="display:inline-block;width:120px;margin-right:6px;" readonly="readonly">
-                    <input type="submit" class="btn btn-success pull-right" value="发表评论" id="commentSubmit" disabled="disabled">
+                    <input type="submit" class="btn btn-success pull-right" value="发表评论" id="commentSubmit" :disabled="commentValue==null">
                 </div>
             </fieldset>
         </form>
@@ -20,8 +21,51 @@
 </template>
 
 <script>
+    import Alert from './Alert'
+
     export default {
-        name: "CommentForm"
+        name: "CommentForm",
+        components:{
+            Alert
+        },
+        data(){
+            return {
+                commentValue:null,
+                alertObj:null,
+            }
+        },
+        methods:{
+            addComment(){
+                const data={
+                    itemId:this.postId=this.$route.params.id,
+                    commentMD:this.commentValue,
+                    commentHTML:this.$refs.editor.d_render
+                }
+
+                console.log(this.$refs.editor.d_render)
+                this.$store.dispatch('addComment',data).then((response) => {
+                    this.alertObj=response.data
+                    this.$emit("parentLoadComments")
+                }).catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
+            },
+
+            //绑定@imgAdd event
+            uploadImage(pos, $file){
+                //第一步.将图片上传到服务器.
+                const data = new FormData();
+                data.append('file', $file);
+
+                this.$store.dispatch('uploadFile',data).then((response) => {
+                    //console.log(response.data)
+                    //第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+                    this.$refs.editor.$img2Url(pos, response.data.data);
+                }).catch(error => {
+                    this.alertObj={status:false,msg:error.toString()}
+                })
+            }
+        }
     }
 </script>
 

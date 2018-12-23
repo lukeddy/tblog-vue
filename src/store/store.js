@@ -211,6 +211,17 @@ export const store=new Vuex.Store({
                 })
             })
         },
+        addComment(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.post('/comment',params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
         thumbsUpComment(context, params) {
             return new Promise((resolve, reject) => {
                 axios.defaults.headers.common['Authorization'] = context.state.token
@@ -227,6 +238,22 @@ export const store=new Vuex.Store({
                 axios.defaults.headers.common['Authorization'] = context.state.token
 
                 axios.delete('/comment/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+
+        uploadFile(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                const headers={
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                }
+
+                axios.post('/upload/file',params,headers).then(response => {
                     resolve(response)
                 }).catch(error => {
                     reject(error)

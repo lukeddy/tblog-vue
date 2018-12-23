@@ -5,7 +5,7 @@
         <div class="comment-list">
             <CommentItem v-for="(comment,index) in comments" :key="index" :comment="comment" v-on:parentLoadComments="loadComments"></CommentItem>
         </div>
-        <CommentForm></CommentForm>
+        <CommentForm v-on:parentLoadComments="loadComments"></CommentForm>
     </div>
 </template>
 
