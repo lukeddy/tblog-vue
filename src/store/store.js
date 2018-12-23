@@ -222,6 +222,17 @@ export const store=new Vuex.Store({
                 })
             })
         },
+        replyComment(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.post('/comment/reply',params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
         thumbsUpComment(context, params) {
             return new Promise((resolve, reject) => {
                 axios.defaults.headers.common['Authorization'] = context.state.token

@@ -2,18 +2,18 @@
     <div class="comment-form">
         <!--评论表单-->
         <Alert v-if="alertObj" :data="alertObj"/>
-        <form method="post" @submit.prevent="addComment" class="form-vertical" id="reply-form">
+        <form method="post" @submit.prevent="addReply" class="form-vertical">
             <fieldset>
                 <div class="form-group">
-                    <label>评论</label>
-                    <mavon-editor v-model="commentValue" ref=editor @imgAdd="uploadImage" placeholder="留下你的角脚印..."/>
+                    <label>回复</label>
+                    <mavon-editor v-model="replyValue" ref=editor @imgAdd="uploadImage" placeholder="回复内容..."/>
                 </div>
                 <div class="form-group text-right">
-                    <input type="hidden" name="itemId" value="5b87dceabf578d115d2357ac">
-                    <input type="hidden" name="authorId" value="5b7d59bbbf578d05d7046ef6">
+                    <input type="hidden" ref="commentId" :value="comment.id"/>
                     <img id="vCodeImage" src="../assets/validateCode.jpeg" onclick="javascript:reloadCommentVCode();" autocomplete="off">
                     <input type="text" name="vcode" id="vCodeInput" class="form-control" style="display:inline-block;width:120px;margin-right:6px;" readonly="readonly">
-                    <button type="submit" class="btn btn-success pull-right" :disabled="commentValue==null">发表评论</button>
+                    <button type="button" class="btn btn-default pull-left">取消</button>
+                    <button type="submit" class="btn btn-success pull-right" :disabled="replyValue==null">回复</button>
                 </div>
             </fieldset>
         </form>
@@ -24,28 +24,29 @@
     import Alert from './Alert'
 
     export default {
-        name: "CommentForm",
+        name: "CommentReplyForm",
         components:{
             Alert
         },
+        props:["comment"],
         data(){
             return {
-                commentValue:'',
+                replyValue:'',
                 alertObj:null,
             }
         },
         methods:{
-            addComment(){
+            addReply(){
                 const data={
-                    itemId:this.$route.params.id,
-                    commentMD:this.commentValue,
-                    commentHTML:this.$refs.editor.d_render
+                    commentId:this.$refs.commentId.value,
+                    replyMD:this.replyValue,
+                    replyHtml:this.$refs.editor.d_render
                 }
 
-                console.log(this.$refs.editor.d_render)
-                this.$store.dispatch('addComment',data).then((response) => {
+                //console.log(data)
+                this.$store.dispatch('replyComment',data).then((response) => {
                     this.alertObj=response.data
-                    this.$emit("parentLoadComments")
+                    this.$emit("parentReloadComments")
                 }).catch(error => {
                     this.alertObj={status:false,msg:error.toString()}
                 })
@@ -70,7 +71,7 @@
 </script>
 
 <style scoped>
-  .comment-form{
-      margin:20px 0 0 0;
-  }
+    .comment-form{
+        margin:20px 0 0 0;
+    }
 </style>

@@ -16,7 +16,7 @@
                 <a class="like" @click="thumbsUp(comment.id)">
                     <i class="fa fa-thumbs-up"></i> {{comment.thumbsUPCount}} 赞
                 </a>
-                <a v-if="this.$store.getters.isLoggedIn" class="reply btn-reply-to" reply-to-id="5ba4ad5ebf578d447ea53389" reply-to-username="admin">
+                <a v-if="this.$store.getters.isLoggedIn" class="reply btn-reply-to" :id="comment.id" @click="toggleReplyForm">
                     <i class="fa fa-comments"></i> 回复
                 </a>
                 <a v-if="this.$store.getters.isLoggedIn" @click="deleteComment(comment.id)" class="remove">
@@ -26,26 +26,39 @@
                     <i class="fa fa-ban"></i> 举报
                 </a>
             </div>
-            <div class="reply-box" id="replyBox5ba4ad5ebf578d447ea53389"></div>
+            <CommentReplyForm v-if="currentReplyForm==comment.id" :comment="comment" v-on:parentReloadComments="parentReloadComments"></CommentReplyForm>
         </div>
     </div>
 </template>
 
 <script>
     import CommentReply from './CommentReply'
+    import CommentReplyForm from './CommentReplyForm'
+
     export default {
         name: "CommentItem",
         props:["comment"],
         components:{
-            CommentReply
+            CommentReply,
+            CommentReplyForm
+        },
+        data(){
+            return{
+               currentReplyForm:null
+            }
         },
         methods:{
+            toggleReplyForm(e){
+                console.log(e.target.id)
+                this.currentReplyForm=null
+                this.currentReplyForm=e.target.id
+            },
             deleteComment(commentId){
                 this.$store.dispatch('delComment', {
                     id:commentId,
                 }).then((response) => {
                     this.alertObj=response.data
-                    this.$emit("parentLoadComments")
+                    this.parentReloadComments()
                 }).catch(error => {
                     this.alertObj={status:false,msg:error.toString()}
                 })
@@ -59,6 +72,9 @@
                 }).catch(error => {
                     this.alertObj={status:false,msg:error.toString()}
                 })
+            },
+            parentReloadComments(){
+                this.$emit("parentLoadComments")
             }
 
         }
