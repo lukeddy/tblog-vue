@@ -201,5 +201,37 @@ export const store=new Vuex.Store({
                 })
             })
         },
+
+        getComments(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.get('/comment/public/'+params.id).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+        thumbsUpComment(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.put('/comment/thumbsup/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+        delComment(context, params) {
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = context.state.token
+
+                axios.delete('/comment/'+params.id,params).then(response => {
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
     }
 })
