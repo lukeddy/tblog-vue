@@ -2,6 +2,8 @@
     <div id="footer">
        <div id="footer-main">
         <div class="links">
+            <strong class="env">环境：{{env}}-{{apiUrl}} </strong>
+            |
             <a class="dark" href="/tblog/rss">RSS</a>
             |
             <a href="/tblog/swagger-ui.html" target="_blank">API</a>
@@ -20,10 +22,19 @@
 </template>
 <script>
 export default {
-    name:"Footer"
+    name:"Footer",
+    data(){
+        return {
+            env:process.env.VUE_APP_ENV,
+            apiUrl:process.env.VUE_APP_API_BASE_URL
+        }
+    }
 }
 </script>
 <style>
+  .env{
+     color:tomato;
+  }
   #footer {
     clear: both;
     background: #fff;
