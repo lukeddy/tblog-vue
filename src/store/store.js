@@ -15,6 +15,9 @@ export const store=new Vuex.Store({
         isLoggedIn(state) {
             return state.token !== null
         },
+        getToken(state){
+            return state.token
+        }
     },
     mutations:{
         saveTokenToLocal(state, token) {

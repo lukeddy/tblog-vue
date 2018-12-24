@@ -49,7 +49,6 @@
         },
         methods:{
             toggleReplyForm(e){
-                console.log(e.target.id)
                 this.currentReplyForm=null
                 this.currentReplyForm=e.target.id
             },

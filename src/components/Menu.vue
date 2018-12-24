@@ -25,14 +25,6 @@
                 currentTab:'all'
             }
         },
-        watch:{
-            catList: function(newVal, oldVal) {
-                console.log('catList changed: ', newVal, ' | was: ', oldVal)
-            },
-            currentTab: function(newVal, oldVal) {
-                console.log('currentTab changed: ', newVal, ' | was: ', oldVal)
-            }
-        },
         methods:{
             goToTab(tab){
                 //console.log(tab)

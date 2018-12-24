@@ -51,13 +51,11 @@
                 })
             },
             changeTab(tab){
-                console.log("parent:"+tab)
                 this.currentPage=1;
                 this.currentTab=tab;
                 this.loadData(this.currentPage,this.currentTab);
             },
             jumpPage(pageNo){
-                console.log('aaa:'+pageNo)
                 this.loadData(pageNo,this.currentTab);
             }
         }

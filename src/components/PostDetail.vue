@@ -76,7 +76,6 @@
             this.id=this.$route.params.id
             this.$store.dispatch('getPost',{id:this.id}).then((response) => {
                 this.post=response.data.data
-                console.log(this.post)
             }).catch(error => {
                 this.alertObj={status:false,msg:error.toString()}
             })

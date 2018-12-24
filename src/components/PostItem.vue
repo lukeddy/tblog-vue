@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="thumb-box" v-if="post.thumbURL!=null" :style="{backgroundImage:url('post.thumbURL')}" style="background-size: cover; background-image:url(/tblog/upload/2018/10/cc3169ef369a4c8689c5587aa846f36a.jpg);"></div>
+                <div class="thumb-box" :style="{backgroundSize: 'cover',backgroundImage:'url('+thumbBG+')'}"></div>
             </div>
         </div>
     </li>
@@ -47,9 +47,9 @@
     export default {
         name: "PostItem",
         props:['post','goToTab'],
-        watch:{
-            post: function(newVal, oldVal) {
-                console.log('post changed: ', newVal, ' | was: ', oldVal)
+        data(){
+            return {
+                thumbBG:process.env.VUE_APP_SERVER_BASE_URL+this.post.thumbURL
             }
         }
     }

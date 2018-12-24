@@ -34,10 +34,8 @@
         methods:{
             loadComments(){
                 this.postId=this.$route.params.id
-                //console.log('postId:'+this.postId)
                 this.$store.dispatch('getComments',{id:this.postId}).then((response) => {
                     this.comments=response.data.data
-                    console.log(this.comments)
                 }).catch(error => {
                     this.alertObj={status:false,msg:error.toString()}
                 })

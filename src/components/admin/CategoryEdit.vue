@@ -88,7 +88,6 @@
                             catDir: this.category.catDir,
                             catDesc:this.category.catDesc,
                         }
-                        console.log(data)
                         this.$store.dispatch('updateCategory',data).then((response) => {
                             this.alertObj=response.data
                         })

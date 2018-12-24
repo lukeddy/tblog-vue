@@ -42,7 +42,6 @@
                     commentHTML:this.$refs.editor.d_render
                 }
 
-                console.log(this.$refs.editor.d_render)
                 this.$store.dispatch('addComment',data).then((response) => {
                     this.alertObj=response.data
                     this.$emit("parentLoadComments")

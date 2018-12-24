@@ -1,6 +1,5 @@
 <template>
     <div class="container main">
-        <Advertisement/>
         <div class="col-md-9">
             <ul class="breadcrumb">
                 <li><router-link to="/">首页</router-link><span class="divider"></span></li>
@@ -16,7 +15,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">栏目:</div>
-                                <select v-validate="'required'" data-vv-as="栏目" id="catId" v-model="post.category.id" name="catId" class="form-control">
+                                <select v-validate="'required'" data-vv-as="栏目" v-model="post.category.id" class="form-control">
                                     <option value="" selected="">---请先选择栏目---</option>
                                     <option v-for="(cat,index) in allCategory" :key="index"  :value="cat.id">{{cat.catName}}</option>
                                 </select>
@@ -73,24 +72,50 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="panel">
+                <div class="header">
+                    <span class="col_fade">文章缩略图</span>
+                </div>
+                <div class="inner">
+                    <vue2Dropzone ref="myDropZone" id="dropzone" :style="{backgroundSize:'cover',backgroundImage:'url('+this.thumbBG+')'}" :options="dropzoneOptions" v-on:vdropzone-success="dropzoneSuccess" class="dropzone needsclick dz-clickable"></vue2Dropzone>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import Advertisement from '../Advertisement'
     import Alert from '../Alert'
+    import vue2Dropzone from 'vue2-dropzone'
+    import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
     export default {
         name: "PostEdit",
         components:{
-            Advertisement,
-            Alert
+            Alert,
+            vue2Dropzone
         },
         data(){
             return {
                 allCategory:[],
                 id:null,
                 post:null,
+                thumbBG:null,
+                dropzoneOptions: {
+                    url: process.env.VUE_APP_API_BASE_URL+'/upload/file',
+                    paramName:"file",
+                    acceptedFiles:"image/png,image/jpg,image/jpeg",
+                    autoDiscover:false,
+                    thumbnailWidth: 150,
+                    dictDefaultMessage: '<div class="dz-message needsclick"><i class="fa fa-cloud-upload"></i>\n' +
+                        '                            点击或者拖拽上传<br/>\n' +
+                        '                            <span class="note needsclick">(<strong>文章缩略图</strong>)</span>\n' +
+                        '                        </div>',
+                    maxFilesize: 2,
+                    maxFiles:1,
+                    headers: {'Access-Control-Allow-Origin': '*','Authorization':this.$store.getters.getToken },
+                },
                 alertObj:null,
             }
         },
@@ -98,6 +123,7 @@
             this.id=this.$route.params.id
             this.$store.dispatch('getPost',{id:this.id}).then((response) => {
                 this.post=response.data.data
+                this.thumbBG=process.env.VUE_APP_SERVER_BASE_URL+this.post.thumbURL
             }).catch(error => {
                 this.alertObj={status:false,msg:error.toString()}
             })
@@ -112,8 +138,6 @@
             editPost(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        // this.loading = true
-                        console.log(this.post)
                         var tags='';
                         if(this.post.tags!=null){
                             tags=this.post.tags.join(", ")
@@ -125,6 +149,7 @@
                             title: this.post.title,
                             desc: this.post.desc,
                             tags:tags,
+                            thumbURL:this.post.thumbURL,
                             contentMD:this.post.contentMD,
                             contentHTML:this.$refs.editor.d_render,
                             contentIsHTML:this.post.contentIsHTML,
@@ -153,10 +178,18 @@
                 this.$store.dispatch('uploadFile',data).then((response) => {
                     //console.log(response.data)
                     //第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-                    this.$refs.editor.$img2Url(pos, response.data.data);
+                    this.$refs.editor.$img2Url(pos,process.env.VUE_APP_SERVER_BASE_URL+ response.data.data);
                 }).catch(error => {
                     this.alertObj={status:false,msg:error.toString()}
                 })
+            },
+            dropzoneSuccess(file,response){
+                this.alertObj=response
+                if(response.status==true){
+                    this.post.thumbURL=response.data
+                    this.thumbBG=process.env.VUE_APP_SERVER_BASE_URL+this.post.thumbURL
+                    this.$refs.myDropZone.removeFile(file);
+                }
             }
         }
 

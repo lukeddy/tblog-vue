@@ -23,14 +23,8 @@
             Pagination
         },
         props:["pager","jumpPage"],
-        watch:{
-            pager: function(newVal, oldVal) {
-                console.log('postlist changed: ', newVal, ' | was: ', oldVal)
-            }
-        },
         methods:{
             goToTab(tab){
-                console.log("postList :"+tab)
                 this.$emit("parentChangeTab",tab)
             }
         }

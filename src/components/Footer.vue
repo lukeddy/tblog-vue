@@ -2,7 +2,7 @@
     <div id="footer">
        <div id="footer-main">
         <div class="links">
-            <strong class="env">环境：{{env}}-{{apiUrl}} </strong>
+            <strong class="env">环境：{{env}}-{{serverUrl}} </strong>
             |
             <a class="dark" href="/tblog/rss">RSS</a>
             |
@@ -26,7 +26,8 @@ export default {
     data(){
         return {
             env:process.env.VUE_APP_ENV,
-            apiUrl:process.env.VUE_APP_API_BASE_URL
+            apiUrl:process.env.VUE_APP_API_BASE_URL,
+            serverUrl:process.env.VUE_APP_SERVER_BASE_URL
         }
     }
 }
