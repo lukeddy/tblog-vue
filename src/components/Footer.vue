@@ -2,7 +2,7 @@
     <div id="footer">
        <div id="footer-main">
         <div class="links">
-            <strong class="env">环境：{{env}}-{{serverUrl}} </strong>
+            <strong class="env">环境：{{appName}}-{{env}}</strong>
             |
             <a class="dark" href="/tblog/rss">RSS</a>
             |
@@ -25,6 +25,7 @@ export default {
     name:"Footer",
     data(){
         return {
+            appName:process.env.VUE_APP_NAME,
             env:process.env.VUE_APP_ENV,
             apiUrl:process.env.VUE_APP_API_BASE_URL,
             serverUrl:process.env.VUE_APP_SERVER_BASE_URL
