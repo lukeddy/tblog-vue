@@ -19,3 +19,7 @@ yarn run build
 ```
 yarn run lint
 ```
+
+## License
+
+MIT
