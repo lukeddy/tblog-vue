@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+    <transition name="fade">
+      <template v-if="preloading">
+        <Preload />
+      </template>
+    </transition>
     <Navbar></Navbar>
     <router-view></router-view>
     <Footer></Footer>
@@ -9,12 +14,33 @@
 <script>
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Preload from './components/Preload'
 
 export default {
   name: 'app',
   components: {
     Navbar,
     Footer,
+    Preload,
+  },
+  data(){
+    return{
+        preloading: true,
+    };
+  },
+  methods:{
+      showLoader() {
+          const app = this;
+          setTimeout(() => {
+              app.preloading = false;
+          }, 3000);
+      },
+      boot() {
+          this.showLoader();
+      },
+  },
+  mounted(){
+    this.boot();
   }
 }
 </script>
