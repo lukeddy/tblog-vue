@@ -4,10 +4,12 @@
       <template v-if="preloading">
         <Preload />
       </template>
+      <div v-if="!preloading">
+        <Navbar></Navbar>
+        <router-view></router-view>
+        <Footer></Footer>
+      </div>
     </transition>
-    <Navbar></Navbar>
-    <router-view></router-view>
-    <Footer></Footer>
   </div>
 </template>
 

@@ -38,8 +38,8 @@ export default {
     position: absolute;
     z-index: 100000;
     background-color: #fff;
-    width: 100%;
-    height: 100%;
+    width: calc(100%);
+    height: calc(100vh);
     top: 0;
     left: 0;
     bottom: 0;
