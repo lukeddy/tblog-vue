@@ -103,8 +103,6 @@
         data(){
             return {
                 allCategory:[],
-                authorId:'',
-                authorName:'',
                 catId:'',
                 title: '',
                 desc: '',
@@ -139,14 +137,6 @@
             }).catch(error => {
                 this.alertObj={status:false,msg:error.toString()}
             })
-
-            this.$store.dispatch('getUserInfo').then((response) => {
-                this.authorId=response.data.data.uid
-                this.authorName=response.data.data.username
-            }).catch(error => {
-                this.alertObj={status:false,msg:error.toString()}
-            })
-
         },
         methods:{
             addPost(){
@@ -154,8 +144,8 @@
                     if (result) {
                         // this.loading = true
                         this.$store.dispatch('addPost', {
-                            authorId:this.authorId,
-                            authorName:this.authorName,
+                            authorId:this.$store.getters.getUser.uid,
+                            authorName:this.$store.getters.getUser.username,
                             catId:this.catId,
                             title: this.title,
                             desc: this.desc,

@@ -8,6 +8,7 @@ axios.defaults.baseURL=process.env.VUE_APP_API_BASE_URL
 export const store=new Vuex.Store({
     state:{
       token:null,
+      userInfo:null,
       posts:[],
 
     },
@@ -17,11 +18,17 @@ export const store=new Vuex.Store({
         },
         getToken(state){
             return state.token
+        },
+        getUser(state){
+          return state.userInfo
         }
     },
     mutations:{
         saveTokenToLocal(state, token) {
             state.token = token
+        },
+        setUser(state,userInfo){
+          state.userInfo=userInfo
         },
         logout(state) {
             state.token = null
@@ -42,9 +49,10 @@ export const store=new Vuex.Store({
             return new Promise((resolve, reject) => {
                 axios.post('/login',params).then(response => {
                     if(response.data.status){
-                        const token = response.data.data
+                        const {token,userInfo} = response.data.data
                         localStorage.setItem('access_token', token)
                         context.commit('saveTokenToLocal', token)
+                        context.commit('setUser',userInfo)
                     }
                     resolve(response)
                 })
